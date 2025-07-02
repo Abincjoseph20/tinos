@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Tinos - Creative Digital Agency</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00f7ff;
+      --secondary: #0099ff;
+      --darker: #050510;
+      --dark: #0a0a1a;
+      --light: #f8f9fa;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* === HEADER SECTION === */
+    .header {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* === HERO SECTION WITH VIDEO BACKGROUND === */
+    .hero {
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      padding: 6rem 5% 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-content {
+      flex: 1;
+      z-index: 2;
+      position: relative;
+    }
+    
+    .hero h1 {
+      font-size: clamp(.8rem, 5vw, 4rem);
+      font-weight: 50;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.7));
+      background-clip: text;
+      color: transparent;
+      font-family: 'Montserrat';
+    }
+    
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .hero p {
+      font-size: clamp(1rem, 1.2vw, 1.3rem);
+      line-height: 1.6;
+      font-weight: 200;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-size: 95%;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      font-size: large;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 200;
+      font-family: 'Montserrat';
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      font-size: 0.8rem;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: var(--darker);
+      border: none;
+      box-shadow: 0 10px 20px rgba(0, 247, 255, 0.2);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 247, 255, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    /* Video Background */
+    .hero-video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .video-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+    }
+    
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(5,5,16,0.8) 0%, rgba(5,5,16,0.5) 100%);
+      z-index: 0;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background-color: transparent;
+      transition: all 0.3s ease;
+      padding: 1rem 0;
+    }
+
+    .navbar.scrolled {
+      background-color: rgba(0, 0, 0, 0.95);
+      padding: 0.5rem 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar-brand img {
+      height: 70px;
+      width: auto;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled .navbar-brand img {
+      height: 50px;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    .navbar-toggler {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-nav .nav-link {
+      color: white !important;
+      font-size: 1rem;
+      margin-left: 1rem;
+      transition: color 0.3s ease;
+      font-weight: 150;
+      position: relative;
+      font-family: 'Montserrat';
+    }
+
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      width: 100%;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--primary) !important;
+    }
+
+    /* === VERTICAL SLIDER SECTION === */
+    .vertical-slider-section {
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f0f1a 0%, #050510 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .split-scroller {
+      display: flex;
+      height: 100vh;
+      position: relative;
+    }
+    
+    .types-side {
+      width: 40%;
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      background: linear-gradient(135deg, #0a0a1a 0%, #050510 100%);
+    }
+    
+    .details-side {
+      width: 60%;
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      background-color: var(--darker);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .coffee-type {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      scroll-snap-align: start;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    
+    .coffee-img {
+      font-size: 4rem;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .coffee-type h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 15px;
+      background: none;
+      -webkit-text-fill-color: initial;
+    }
+    
+    .coffee-type p {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 30px;
+    }
+    
+    .coffee-type.active {
+      background-color: rgba(0, 247, 255, 0.05);
+    }
+    
+    .coffee-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      width: 100%;
+      max-width: 800px;
+    }
+    
+    .coffee-card {
+      background: rgba(10, 10, 26, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      padding: 40px;
+      scroll-snap-align: start;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      border: 1px solid rgba(0, 247, 255, 0.2);
+    }
+    
+    .coffee-card.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .coffee-card h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      font-family: 'Montserrat';
+    }
+    
+    .coffee-card p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .card-features {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .feature {
+      background: rgba(0, 247, 255, 0.1);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+    
+    .coffee-card.active .feature {
+      transform: translateY(-5px);
+    }
+    
+    .coffee-card .btn {
+      padding: 14px 35px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: var(--darker);
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      width: fit-content;
+      box-shadow: 0 4px 15px rgba(0, 247, 255, 0.3);
+    }
+    
+    .coffee-card .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 247, 255, 0.4);
+    }
+    
+    .divider {
+      position: absolute;
+      top: 0;
+      left: 40%;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(0,247,255,0.2), transparent);
+      z-index: 10;
+    }
+    
+    /* Hide scrollbars */
+    .types-side::-webkit-scrollbar, 
+    .details-side::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .types-side, .details-side {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Progress indicator */
+    .progress-container {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
+    
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: rgba(0, 247, 255, 0.3);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .progress-dot.active {
+      background-color: var(--primary);
+      transform: scale(1.3);
+    }
+
+    /* === HORIZONTAL SCROLL SLIDER === */
+    .slider-section {
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f0f1a 0%, #050510 100%);
+      position: relative;
+      overflow: hidden;
+      top: 0;
+      z-index: 10;
+    }
+
+    .slider-section.sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .slider-container {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-slider {
+      display: flex;
+      height: 100vh;
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    .slider-card {
+      min-width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slider-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+      z-index: 1;
+    }
+
+    .slider-card-content {
+      width: 85%;
+      max-width: 900px;
+      height: 75%;
+      background: rgba(10, 10, 26, 0.9);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 247, 255, 0.2);
+    }
+
+    .slider-card-content:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider-card h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .slider-card p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 30px;
+      max-width: 600px;
+    }
+
+    .slider-card-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slider-card-number {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: rgba(0, 247, 255, 0.3);
+      z-index: 3;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .slider-progress-bar {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      width: 200px;
+      z-index: 10;
+    }
+
+    .slider-progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.8s ease;
+    }
+
+    .slider-indicator {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      color: var(--primary);
+      z-index: 10;
+      opacity: 0.8;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    /* === FOOTER SECTION === */
+    .footer {
+      background-color: var(--darker);
+      color: white;
+      padding: 4rem 0 2rem;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .footer-logo {
+      height: 60px;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer h5 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .footer h5::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 2px;
+      bottom: -8px;
+      left: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+      padding-left: 5px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      transform: translateY(-3px);
+    }
+
+    .contact-info {
+      margin-top: 1.5rem;
+    }
+
+    .contact-info p {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact-info i {
+      margin-right: 10px;
+      color: var(--primary);
+      margin-top: 3px;
+    }
+
+    .copyright {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    /* === RESPONSIVE ADJUSTMENTS === */
+    @media (max-width: 992px) {
+      .hero {
+        padding: 8rem 5% 4rem;
+        text-align: center;
+      }
+      
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .hero p {
+        max-width: 100%;
+      }
+      
+      .navbar-nav {
+        padding-top: 1rem;
+      }
+      
+      .navbar-nav .nav-link {
+        margin-left: 0;
+        padding: 0.5rem 0;
+      }
+      
+      .footer .col-md-4 {
+        margin-bottom: 2rem;
+      }
+
+      .slider-card-content,
+      .coffee-card {
+        padding: 30px;
+        height: 80%;
+      }
+
+      .slider-card h2,
+      .coffee-card h2 {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-brand img {
+        height: 50px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .cta-buttons {
+        justify-content: center;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.8rem;
+      }
+
+      .slider-card-content,
+      .coffee-card {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .slider-card h2,
+      .coffee-card h2 {
+        font-size: 2rem;
+      }
+
+      .slider-card p,
+      .coffee-card p {
+        font-size: 1.1rem;
+      }
+
+      /* Stack vertical slider on mobile */
+      .split-scroller {
+        flex-direction: column;
+        height: 200vh;
+      }
+      
+      .types-side,
+      .details-side {
+        width: 100%;
+        height: 100vh;
+      }
+      
+      .divider {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+      
+      .footer-logo {
+        height: 50px;
+      }
+
+      .slider-card,
+      .coffee-type {
+        padding: 20px;
+      }
+
+      .slider-card-content,
+      .coffee-card {
+        height: 85%;
+        padding: 15px;
+      }
+
+      .slider-card h2,
+      .coffee-card h2 {
+        font-size: 1.8rem;
+      }
+
+      .slider-card p,
+      .coffee-card p {
+        font-size: 1rem;
+      }
+
+      .slider-card-icon,
+      .coffee-img {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="assets/image/tinos white.png" alt="Company Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#courses">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#services">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#blog">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#mentors">Mentors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>&nbsp;&nbsp;
+          <div class="cta-buttons ms-lg-3">
+            <button class="btn btn-secondary">FREE PROPOSAL</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>DESIGN <span>BUILD</span> <br> MARKET</h1>
+        <p>We help brands stay ahead with clear, actionable consultation strategies.</p>
+        <div class="cta-buttons">
+          <button class="btn btn-primary">GET STARTED</button>
+          <button class="btn btn-secondary">LEARN MORE</button>
+        </div>
+      </div>
+      
+      <!-- Video Background -->
+      <div class="hero-video-bg">
+        <video class="video-background" autoplay muted loop>
+          <source src="assets/videos/lap.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay"></div>
+      </div>
+    </section>
+  </header>
+
+  <!-- Vertical Slider Section -->
+  <section class="vertical-slider-section" id="courses">
+    <div class="split-scroller">
+      <div class="types-side" id="typesSide">
+        <div class="coffee-type" data-index="0">
+          <i class="fas fa-laptop-code coffee-img"></i>
+          <h1>Web Development</h1>
+          <p>Master modern web technologies</p>
+        </div>
+        <div class="coffee-type" data-index="1">
+          <i class="fas fa-mobile-alt coffee-img"></i>
+          <h1>Mobile Development</h1>
+          <p>Build cross-platform apps</p>
+        </div>
+        <div class="coffee-type" data-index="2">
+          <i class="fas fa-paint-brush coffee-img"></i>
+          <h1>UI/UX Design</h1>
+          <p>Create stunning interfaces</p>
+        </div>
+        <div class="coffee-type" data-index="3">
+          <i class="fas fa-chart-line coffee-img"></i>
+          <h1>Digital Marketing</h1>
+          <p>Grow your online presence</p>
+        </div>
+      </div>
+      
+      <div class="details-side" id="detailsSide">
+        <div class="coffee-cards">
+          <!-- Web Development Cards -->
+          <div class="coffee-card" data-type="0">
+            <h2>Full Stack Web Development</h2>
+            <div class="card-features">
+              <span class="feature">HTML/CSS</span>
+              <span class="feature">JavaScript</span>
+              <span class="feature">React</span>
+              <span class="feature">Node.js</span>
+            </div>
+            <p>Master the complete web development stack with our comprehensive course covering front-end and back-end technologies to build modern web applications.</p>
+            <a href="#" class="btn">ENROLL NOW</a>
+          </div>
+          
+          <!-- Mobile Development Cards -->
+          <div class="coffee-card" data-type="1">
+            <h2>Cross-Platform Mobile Apps</h2>
+            <div class="card-features">
+              <span class="feature">React Native</span>
+              <span class="feature">Flutter</span>
+              <span class="feature">Firebase</span>
+            </div>
+            <p>Learn to build mobile applications that work on both iOS and Android platforms using the most popular cross-platform frameworks.</p>
+            <a href="#" class="btn">ENROLL NOW</a>
+          </div>
+          
+          <!-- UI/UX Design Cards -->
+          <div class="coffee-card" data-type="2">
+            <h2>User Interface Design</h2>
+            <div class="card-features">
+              <span class="feature">Figma</span>
+              <span class="feature">Adobe XD</span>
+              <span class="feature">Prototyping</span>
+            </div>
+            <p>Master the principles of user interface design and create beautiful, functional designs that provide exceptional user experiences.</p>
+            <a href="#" class="btn">ENROLL NOW</a>
+          </div>
+          
+          <!-- Digital Marketing Cards -->
+          <div class="coffee-card" data-type="3">
+            <h2>Digital Marketing Strategy</h2>
+            <div class="card-features">
+              <span class="feature">SEO</span>
+              <span class="feature">Social Media</span>
+              <span class="feature">Content Marketing</span>
+            </div>
+            <p>Develop comprehensive digital marketing strategies that drive traffic, engagement, and conversions for businesses of all sizes.</p>
+            <a href="#" class="btn">ENROLL NOW</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="divider"></div>
+      <div class="progress-container" id="progressContainer">
+        <div class="progress-dot" data-index="0"></div>
+        <div class="progress-dot" data-index="1"></div>
+        <div class="progress-dot" data-index="2"></div>
+        <div class="progress-dot" data-index="3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal Slider Section -->
+  <section class="slider-section" id="services">
+    <div class="slider-container">
+      <div class="card-slider">
+        <div class="slider-card" style="background-color: #050510;">
+          <span class="slider-card-number">01</span>
+          <div class="slider-card-content">
+            <i class="fas fa-paint-brush slider-card-icon"></i>
+            <h2>Creative Design</h2>
+            <p>Crafting visually stunning designs that captivate and engage your audience.</p>
+            <button class="btn btn-primary">Explore Design</button>
+          </div>
+        </div>
+        <div class="slider-card" style="background-color: #0a0a1a;">
+          <span class="slider-card-number">02</span>
+          <div class="slider-card-content">
+            <i class="fas fa-code slider-card-icon"></i>
+            <h2>Web Development</h2>
+            <p>Building robust, scalable websites with cutting-edge technologies.</p>
+            <button class="btn btn-primary">View Solutions</button>
+          </div>
+        </div>
+        <div class="slider-card" style="background-color: #050510;">
+          <span class="slider-card-number">03</span>
+          <div class="slider-card-content">
+            <i class="fas fa-bullhorn slider-card-icon"></i>
+            <h2>Digital Marketing</h2>
+            <p>Amplifying your brand with strategic marketing and SEO expertise.</p>
+            <button class="btn btn-primary">Boost Your Brand</button>
+          </div>
+        </div>
+        <div class="slider-card" style="background-color: #0a0a1a;">
+          <span class="slider-card-number">04</span>
+          <div class="slider-card-content">
+            <i class="fas fa-shield-alt slider-card-icon"></i>
+            <h2>Secure Solutions</h2>
+            <p>Ensuring your digital assets are protected with top-tier security.</p>
+            <button class="btn btn-primary">Learn More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-progress-bar">
+      <div class="slider-progress"></div>
+    </div>
+    <div class="slider-indicator">↑↓</div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+          <img src="assets/image/tinos white.png" alt="Footer Logo" class="footer-logo">
+          <p>We create digital experiences that transform brands and grow businesses.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+          <h5>Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#blog">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+          <h5>Services</h5>
+          <ul class="footer-links">
+            <li><a href="#web-design">Web Design</a></li>
+            <li><a href="#development">Development</a></li>
+            <li><a href="#marketing">Digital Marketing</a></li>
+            <li><a href="#seo">SEO

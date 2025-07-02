@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .split-scroller {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .types-side {
+            width: 40%;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+        }
+        
+        .details-side {
+            width: 60%;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            background-color: #f9f9f9;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .coffee-type {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            scroll-snap-align: start;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .coffee-img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 5px solid white;
+            transition: all 0.5s ease;
+        }
+        
+        .coffee-type h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #3a2c1a;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .coffee-type p {
+            font-size: 1.2rem;
+            color: #6f4e37;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .coffee-type.active {
+            background-color: rgba(111, 78, 55, 0.1);
+        }
+        
+        .coffee-type.active .coffee-img {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .coffee-type.active h1 {
+            color: #5a3d29;
+            transform: scale(1.05);
+        }
+        
+        .coffee-type.active p {
+            color: #5a3d29;
+        }
+        
+        .coffee-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .coffee-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 40px;
+            scroll-snap-align: start;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.3, 1);
+        }
+        
+        .coffee-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .coffee-card h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #3a2c1a;
+        }
+        
+        .coffee-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+        }
+        
+        .coffee-card.active .card-img {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .card-features {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            background-color: #f0e6d9;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #6f4e37;
+            transition: all 0.3s ease;
+        }
+        
+        .coffee-card.active .feature {
+            transform: translateY(-5px);
+        }
+        
+        .btn {
+            padding: 14px 35px;
+            background-color: #6f4e37;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            width: fit-content;
+            box-shadow: 0 4px 15px rgba(111, 78, 55, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: #5a3d29;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(111, 78, 55, 0.4);
+        }
+        
+        .divider {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.1), transparent);
+            z-index: 10;
+        }
+        
+        /* Hide scrollbars */
+        .types-side::-webkit-scrollbar, 
+        .details-side::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .types-side, .details-side {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Progress indicator */
+        .progress-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(111, 78, 55, 0.3);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .progress-dot.active {
+            background-color: #6f4e37;
+            transform: scale(1.3);
+        }
+        
+        /* Scroll hint */
+        .scroll-hint {
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #6f4e37;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+    </style>
+</head>
+<body>
+    <div class="split-scroller">
+        <div class="types-side" id="typesSide">
+            <div class="coffee-type" data-index="0">
+                <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Black Coffee" class="coffee-img">
+                <h1>Black Coffee</h1>
+                <p>The purest form of coffee</p>
+            </div>
+            <div class="coffee-type" data-index="1">
+                <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Espresso" class="coffee-img">
+                <h1>Espresso</h1>
+                <p>Concentrated coffee perfection</p>
+            </div>
+            <div class="coffee-type" data-index="2">
+                <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cappuccino" class="coffee-img">
+                <h1>Cappuccino</h1>
+                <p>The classic milk-coffee balance</p>
+            </div>
+            <div class="coffee-type" data-index="3">
+                <img src="https://images.unsplash.com/photo-1568649929103-28ffbefaca1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Latte" class="coffee-img">
+                <h1>Latte</h1>
+                <p>Creamy, smooth coffee experience</p>
+            </div>
+        </div>
+        
+        <div class="details-side" id="detailsSide">
+            <div class="coffee-cards">
+                <!-- Black Coffee Cards -->
+                <div class="coffee-card" data-type="0">
+                    <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Classic Black Coffee" class="card-img">
+                    <h2>Classic Black</h2>
+                    <div class="card-features">
+                        <span class="feature">Strong</span>
+                        <span class="feature">Bold Flavor</span>
+                        <span class="feature">No Additives</span>
+                    </div>
+                    <p>Our signature black coffee is brewed from premium Arabica beans, roasted to perfection to deliver a rich, full-bodied flavor with subtle chocolate undertones. Perfect for purists who appreciate coffee in its simplest form.</p>
+                    <a href="#" class="btn">ORDER CLASSIC</a>
+                </div>
+                <div class="coffee-card" data-type="0">
+                    <img src="https://images.unsplash.com/photo-1532635241-17e820acc59f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Cold Brew Coffee" class="card-img">
+                    <h2>Cold Brew</h2>
+                    <div class="card-features">
+                        <span class="feature">Smooth</span>
+                        <span class="feature">Low Acidity</span>
+                        <span class="feature">Refreshing</span>
+                    </div>
+                    <p>Slow-steeped for 18 hours to extract maximum flavor with minimal bitterness. Our cold brew is served over ice for a refreshing coffee experience that's naturally sweet and incredibly smooth.</p>
+                    <a href="#" class="btn">TRY COLD BREW</a>
+                </div>
+                
+                <!-- Espresso Cards -->
+                <div class="coffee-card" data-type="1">
+                    <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Single Origin Espresso" class="card-img">
+                    <h2>Single Origin</h2>
+                    <div class="card-features">
+                        <span class="feature">Intense</span>
+                        <span class="feature">Balanced</span>
+                        <span class="feature">Crema</span>
+                    </div>
+                    <p>Our single-origin espresso showcases the unique characteristics of Ethiopian Yirgacheffe beans with floral notes and a bright, clean finish. The perfect way to experience terroir in your espresso.</p>
+                    <a href="#" class="btn">ORDER ESPRESSO</a>
+                </div>
+                <div class="coffee-card" data-type="1">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f8e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Doppio Espresso" class="card-img">
+                    <h2>Doppio</h2>
+                    <div class="card-features">
+                        <span class="feature">Double Shot</span>
+                        <span class="feature">Extra Strong</span>
+                        <span class="feature">For Connoisseurs</span>
+                    </div>
+                    <p>Two shots of our finest espresso for those who appreciate the pure, unadulterated coffee experience with an extra caffeine kick. Served with sparkling water to cleanse the palate.</p>
+                    <a href="#" class="btn">TRY DOPPIO</a>
+                </div>
+                
+                <!-- Cappuccino Cards -->
+                <div class="coffee-card" data-type="2">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Traditional Cappuccino" class="card-img">
+                    <h2>Traditional</h2>
+                    <div class="card-features">
+                        <span class="feature">1/3 Espresso</span>
+                        <span class="feature">1/3 Milk</span>
+                        <span class="feature">1/3 Foam</span>
+                    </div>
+                    <p>The perfect balance of our signature espresso, velvety steamed milk and light, airy foam. Sprinkled with cocoa for the authentic Italian cappuccino experience. Best enjoyed before 11am.</p>
+                    <a href="#" class="btn">ORDER CAPPUCCINO</a>
+                </div>
+                
+                <!-- Latte Cards -->
+                <div class="coffee-card" data-type="3">
+                    <img src="https://images.unsplash.com/photo-1568649929103-28ffbefaca1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Classic Latte" class="card-img">
+                    <h2>Classic Latte</h2>
+                    <div class="card-features">
+                        <span class="feature">Creamy</span>
+                        <span class="feature">Smooth</span>
+                        <span class="feature">Customizable</span>
+                    </div>
+                    <p>Our latte features a double shot of espresso with three times the amount of steamed milk, creating a creamy, mellow coffee experience. The perfect canvas for latte art and flavor additions.</p>
+                    <a href="#" class="btn">ORDER LATTE</a>
+                </div>
+                <div class="coffee-card" data-type="3">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Vanilla Latte" class="card-img">
+                    <h2>Vanilla Latte</h2>
+                    <div class="card-features">
+                        <span class="feature">Sweet</span>
+                        <span class="feature">Aromatic</span>
+                        <span class="feature">Popular</span>
+                    </div>
+                    <p>Our classic latte enhanced with house-made vanilla syrup. The perfect balance of sweet and coffee flavors, with just enough vanilla to complement rather than overwhelm the espresso.</p>
+                    <a href="#" class="btn">TRY VANILLA</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-dot" data-index="0"></div>
+            <div class="progress-dot" data-index="1"></div>
+            <div class="progress-dot" data-index="2"></div>
+            <div class="progress-dot" data-index="3"></div>
+        </div>
+        
+        <div class="scroll-hint">Scroll to explore</div>
+    </div>
+
+    <script>
+        const typesSide = document.getElementById('typesSide');
+        const detailsSide = document.getElementById('detailsSide');
+        const coffeeTypes = document.querySelectorAll('.coffee-type');
+        const coffeeCards = document.querySelectorAll('.coffee-card');
+        const progressDots = document.querySelectorAll('.progress-dot');
+        
+        // Store the current active coffee type index
+        let currentTypeIndex = 0;
+        let isSyncingScroll = false;
+        
+        // Calculate the position of each coffee type's first card
+        const typeCardPositions = [];
+        coffeeTypes.forEach((type, index) => {
+            const firstCard = document.querySelector(`.coffee-card[data-type="${index}"]`);
+            if (firstCard) {
+                typeCardPositions[index] = firstCard.offsetTop;
+            }
+        });
+        
+        // Intersection Observer for card animations
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.4,
+            root: detailsSide
+        });
+        
+        // Observe all cards
+        coffeeCards.forEach(card => {
+            cardObserver.observe(card);
+        });
+        
+        // Update active coffee type and progress dots
+        function updateActiveType(typeIndex) {
+            // Update current type index
+            currentTypeIndex = parseInt(typeIndex);
+            
+            // Update coffee types highlighting
+            coffeeTypes.forEach((type, index) => {
+                if (index === currentTypeIndex) {
+                    type.classList.add('active');
+                } else {
+                    type.classList.remove('active');
+                }
+            });
+            
+            // Update progress dots
+            progressDots.forEach((dot, index) => {
+                if (index === currentTypeIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Handle types side scrolling (sync to details)
+        typesSide.addEventListener('scroll', () => {
+            if (isSyncingScroll) return;
+            
+            // Find which type is most visible
+            const typesRect = typesSide.getBoundingClientRect();
+            let mostVisibleType = null;
+            let maxVisibility = 0;
+            
+            coffeeTypes.forEach((type, index) => {
+                const typeRect = type.getBoundingClientRect();
+                const visibility = Math.min(typeRect.bottom, typesRect.bottom) - 
+                                  Math.max(typeRect.top, typesRect.top);
+                
+                if (visibility > maxVisibility) {
+                    maxVisibility = visibility;
+                    mostVisibleType = index;
+                }
+            });
+            
+            if (mostVisibleType !== null && mostVisibleType !== currentTypeIndex) {
+                isSyncingScroll = true;
+                
+                // Scroll details side to show the first card of this type
+                const firstCard = document.querySelector(`.coffee-card[data-type="${mostVisibleType}"]`);
+                if (firstCard) {
+                    detailsSide.scrollTo({
+                        top: firstCard.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+                
+                // Update active type after a delay
+                setTimeout(() => {
+                    updateActiveType(mostVisibleType);
+                    isSyncingScroll = false;
+                }, 300);
+            }
+        });
+        
+        // Handle details side scrolling (sync to types)
+        detailsSide.addEventListener('scroll', () => {
+            if (isSyncingScroll) return;
+            
+            // Find which card is most visible
+            const detailsRect = detailsSide.getBoundingClientRect();
+            let mostVisibleCard = null;
+            let maxVisibility = 0;
+            
+            coffeeCards.forEach(card => {
+                const cardRect = card.getBoundingClientRect();
+                const visibility = Math.min(cardRect.bottom, detailsRect.bottom) - 
+                                  Math.max(cardRect.top, detailsRect.top);
+                
+                if (visibility > maxVisibility) {
+                    maxVisibility = visibility;
+                    mostVisibleCard = card;
+                }
+            });
+            
+            if (mostVisibleCard) {
+                const newTypeIndex = mostVisibleCard.getAttribute('data-type');
+                if (parseInt(newTypeIndex) !== currentTypeIndex) {
+                    isSyncingScroll = true;
+                    
+                    // Scroll types side to show this type
+                    coffeeTypes[newTypeIndex].scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                    
+                    // Update active type after a delay
+                    setTimeout(() => {
+                        updateActiveType(newTypeIndex);
+                        isSyncingScroll = false;
+                    }, 300);
+                }
+            }
+        });
+        
+        // Click navigation for progress dots
+        progressDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const index = dot.getAttribute('data-index');
+                const firstCardOfType = document.querySelector(`.coffee-card[data-type="${index}"]`);
+                
+                if (firstCardOfType) {
+                    isSyncingScroll = true;
+                    firstCardOfType.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                    
+                    setTimeout(() => {
+                        updateActiveType(index);
+                        isSyncingScroll = false;
+                    }, 500);
+                }
+            });
+        });
+        
+        // Click navigation for coffee types
+        coffeeTypes.forEach(type => {
+            type.addEventListener('click', () => {
+                const index = type.getAttribute('data-index');
+                const firstCardOfType = document.querySelector(`.coffee-card[data-type="${index}"]`);
+                
+                if (firstCardOfType) {
+                    isSyncingScroll = true;
+                    firstCardOfType.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                    
+                    setTimeout(() => {
+                        updateActiveType(index);
+                        isSyncingScroll = false;
+                    }, 500);
+                }
+            });
+        });
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                detailsSide.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                detailsSide.scrollBy({ top: -window.innerHeight * 0.8, behavior: 'smooth' });
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const nextIndex = Math.min(currentTypeIndex + 1, coffeeTypes.length - 1);
+                const firstCard = document.querySelector(`.coffee-card[data-type="${nextIndex}"]`);
+                if (firstCard) {
+                    isSyncingScroll = true;
+                    firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => {
+                        updateActiveType(nextIndex);
+                        isSyncingScroll = false;
+                    }, 300);
+                }
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prevIndex = Math.max(currentTypeIndex - 1, 0);
+                const firstCard = document.querySelector(`.coffee-card[data-type="${prevIndex}"]`);
+                if (firstCard) {
+                    isSyncingScroll = true;
+                    firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => {
+                        updateActiveType(prevIndex);
+                        isSyncingScroll = false;
+                    }, 300);
+                }
+            }
+        });
+        
+        // Initialize first card as active
+        if (coffeeCards.length > 0) {
+            coffeeCards[0].classList.add('active');
+            updateActiveType(0);
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            // Recalculate card positions
+            coffeeTypes.forEach((type, index) => {
+                const firstCard = document.querySelector(`.coffee-card[data-type="${index}"]`);
+                if (firstCard) {
+                    typeCardPositions[index] = firstCard.offsetTop;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

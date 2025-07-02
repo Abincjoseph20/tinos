@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Tinos - Creative Digital Agency</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00f7ff;
+      --secondary: #0099ff;
+      --darker: #050510;
+      --dark: #0a0a1a;
+      --light: #f8f9fa;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* === HEADER SECTION === */
+    .header {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* === HERO SECTION WITH VIDEO BACKGROUND === */
+    .hero {
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      padding: 6rem 5% 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-content {
+      flex: 1;
+      z-index: 2;
+      position: relative;
+    }
+    
+    .hero h1 {
+      font-size: clamp(.8rem, 5vw, 4rem);
+      font-weight: 50;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.7));
+      background-clip: text;
+      color: transparent;
+      font-family: 'Montserrat';
+    }
+    
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .hero p {
+      font-size: clamp(1rem, 1.2vw, 1.3rem);
+      line-height: 1.6;
+      font-weight: 200;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-size: 95%;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      font-size: large;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 200;
+      font-family: 'Montserrat';
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      font-size: 0.8rem;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: var(--darker);
+      border: none;
+      box-shadow: 0 10px 20px rgba(0, 247, 255, 0.2);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 247, 255, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    /* Video Background */
+    .hero-video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .video-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+    }
+    
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background-color: transparent;
+      transition: all 0.3s ease;
+      padding: 1rem 0;
+    }
+
+    .navbar.scrolled {
+      background-color: rgba(0, 0, 0, 0.95);
+      padding: 0.5rem 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar-brand img {
+      height: 70px;
+      width: auto;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled .navbar-brand img {
+      height: 50px;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    .navbar-toggler {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-nav .nav-link {
+      color: white !important;
+      font-size: 1rem;
+      margin-left: 1rem;
+      transition: color 0.3s ease;
+      font-weight: 150;
+      position: relative;
+      font-family: 'Montserrat';
+    }
+
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      width: 100%;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--primary) !important;
+    }
+
+    /* === IMAGE SLIDER SECTION === */
+    .slider-section {
+      width: 100%;
+      height: 100vh;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      top: 0;
+      z-index: 10;
+    }
+
+    .slider-section.sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .slider-container {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-slider {
+      display: flex;
+      height: 100vh;
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    .slider-card {
+      min-width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slider-card-content {
+      width: 85%;
+      max-width: 900px;
+      height: 75%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .slider-card-number {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: rgba(0, 247, 255, 0.3);
+      z-index: 3;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .slider-progress-bar {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      width: 200px;
+      z-index: 10;
+    }
+
+    .slider-progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.8s ease;
+    }
+
+    .slider-indicator {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      color: var(--primary);
+      z-index: 10;
+      opacity: 0.8;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    /* === FOOTER SECTION === */
+    .footer {
+      background-color: var(--darker);
+      color: white;
+      padding: 4rem 0 2rem;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .footer-logo {
+      height: 60px;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer h5 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .footer h5::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 2px;
+      bottom: -8px;
+      left: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+      padding-left: 5px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      transform: translateY(-3px);
+    }
+
+    .contact-info {
+      margin-top: 1.5rem;
+    }
+
+    .contact-info p {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact-info i {
+      margin-right: 10px;
+      color: var(--primary);
+      margin-top: 3px;
+    }
+
+    .copyright {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    /* === RESPONSIVE ADJUSTMENTS === */
+    @media (max-width: 992px) {
+      .hero {
+        padding: 8rem 5% 4rem;
+        text-align: center;
+      }
+      
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .hero p {
+        max-width: 100%;
+      }
+      
+      .navbar-nav {
+        padding-top: 1rem;
+      }
+      
+      .navbar-nav .nav-link {
+        margin-left: 0;
+        padding: 0.5rem 0;
+      }
+      
+      .footer .col-md-4 {
+        margin-bottom: 2rem;
+      }
+
+      .slider-card-content {
+        height: 80%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-brand img {
+        height: 50px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .cta-buttons {
+        justify-content: center;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.8rem;
+      }
+
+      .slider-card-content {
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+      
+      .footer-logo {
+        height: 50px;
+      }
+
+      .slider-card {
+        padding: 20px;
+      }
+
+      .slider-card-content {
+        height: 85%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img style="width: 90px; height: 75px;" src="assets/image/tinos white.png" alt="Company Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link " href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#services">Services</a>
+            </li>
+             <li class="nav-item">
+              <a class="nav-link " href="#blog">Blog</a>
+            </li>
+             <li class="nav-item">
+              <a class="nav-link " href="#mentors">Mentors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>&nbsp;&nbsp;
+          <div class="cta-buttons ms-lg-3">
+            <button class="btn btn-secondary">FREE PROPOSAL</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div style="top: 120px;" class="hero-content">
+        <h1>DESIGN <span>BUILD</span> <br> MARKET</h1>
+        <p>We help brands stay ahead with clear, actionable consultation strategies.</p>
+        <div class="cta-buttons">
+          <button class="btn btn-primary">GET STARTED</button>
+          <!-- <button class="btn btn-secondary">LEARN MORE</button> -->
+        </div>
+      </div>
+      
+      <!-- Video Background -->
+      <div class="hero-video-bg">
+        <video class="video-background" autoplay muted loop>
+          <source src="assets/videos/hand scanning tinos_1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay"></div>
+      </div>
+    </section>
+  </header>
+
+  <!-- Slider Section -->
+  <section class="slider-section" id="services">
+    <div class="slider-container">
+      <div class="card-slider">
+        <div class="slider-card" style="background-color: #050510;">
+          <span class="slider-card-number">01</span>
+          <div  class="slider-card-content"  style="background-image: url('assets/image/ChatGPT\ Image\ .png'); height: 80%;">
+            <!-- Image fills the entire card content area -->
+          </div>
+        </div>
+
+        <div class="slider-card" style="background-color: #050510;">
+          <span class="slider-card-number">02</span>
+          <div class="slider-card-content" style="background-image: url('assets/image/ChatGPT\ Image\ .png');  height: 80%;">
+            <!-- Image fills the entire card content area -->
+          </div>
+        </div>
+
+        <div class="slider-card" style="background-color: #050510;">
+          <span class="slider-card-number">03</span>
+          <div class="slider-card-content" style=" background-image: url('assets/image/ChatGPT\ Image\ .png') ; height: 80%;">
+            <!-- Image fills the entire card content area -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-progress-bar">
+      <div class="slider-progress"></div>
+    </div>
+    <div class="slider-indicator">↑↓</div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+          <img src="assets/image/tinos white.png" alt="Footer Logo" class="footer-logo">
+          <p>We create digital experiences that transform brands and grow businesses.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+          <h5>Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#blog">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+          <h5>Services</h5>
+          <ul class="footer-links">
+            <li><a href="#web-design">Web Design</a></li>
+            <li><a href="#development">Development</a></li>
+            <li><a href="#marketing">Digital Marketing</a></li>
+            <li><a href="#seo">SEO Services</a></li>
+            <li><a href="#branding">Branding</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-lg-4 col-md-6">
+          <h5>Contact Us</h5>
+          <div class="contact-info">
+            <p><i class="fas fa-map-marker-alt"></i> 123 Business Avenue, City, Country</p>
+            <p><i class="fas fa-phone-alt"></i> +1 (234) 567-8900</p>
+            <p><i class="fas fa-envelope"></i> info@tinos.com</p>
+            <p><i class="fas fa-clock"></i> Mon-Fri: 9AM - 6PM</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-12">
+          <div class="copyright">
+            <p>© 2025 Tinos. All Rights Reserved. | <a href="#privacy" style="color: rgba(255,255,255,0.7);">Privacy Policy</a> | <a href="#terms" style="color: rgba(255,255,255,0.7);">Terms of Service</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS and Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Navbar background change on scroll
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Improved Horizontal Slider Functionality
+    const sliderSection = document.querySelector('.slider-section');
+    const slider = document.querySelector('.card-slider');
+    const sliderCards = document.querySelectorAll('.slider-card');
+    const sliderProgress = document.querySelector('.slider-progress');
+    const sliderIndicator = document.querySelector('.slider-indicator');
+
+    let currentSlide = 0;
+    let isScrolling = false;
+    let isSliderActive = false;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const cardTransitionDuration = 1200;
+    const sectionTransitionDuration = 1000;
+    const scrollThreshold = 50;
+
+    // Set initial position
+    updateSliderPosition();
+
+    // IntersectionObserver with better thresholds
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            activateSlider();
+          } else if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
+            deactivateSlider();
+          }
+        });
+      },
+      { 
+        threshold: [0, 0.2, 0.5, 1]
+      }
+    );
+
+    observer.observe(sliderSection);
+
+    function activateSlider() {
+      isSliderActive = true;
+      sliderSection.classList.add('sticky');
+      observer.unobserve(sliderSection);
+      setTimeout(() => observer.observe(sliderSection), 300);
+    }
+
+    function deactivateSlider() {
+      isSliderActive = false;
+      sliderSection.classList.remove('sticky');
+    }
+
+    // Improved wheel event handler with momentum detection
+    let lastScrollTime = 0;
+    let scrollVelocity = 0;
+    const velocityThreshold = 0.5;
+
+    window.addEventListener('wheel', (e) => {
+      if (!isSliderActive || isScrolling) return;
+      
+      e.preventDefault();
+      
+      const now = Date.now();
+      const deltaTime = now - lastScrollTime;
+      lastScrollTime = now;
+      
+      scrollVelocity = Math.abs(e.deltaY) / (deltaTime || 1);
+      
+      if (deltaTime > 100 || scrollVelocity > velocityThreshold) {
+        if (e.deltaY > 0) {
+          if (currentSlide < sliderCards.length - 1) {
+            currentSlide++;
+            updateSliderPosition();
+          } else {
+            releaseToFooter();
+          }
+        } else {
+          if (currentSlide > 0) {
+            currentSlide--;
+            updateSliderPosition();
+          } else {
+            releaseToHeader();
+          }
+        }
+        
+        updateIndicator();
+      }
+    }, { passive: false });
+
+    // Enhanced touch handling with vertical swipe detection
+    document.addEventListener('touchstart', (e) => {
+      if (!isSliderActive) return;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!isSliderActive) return;
+      e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('touchend', (e) => {
+      if (!isSliderActive || isScrolling) return;
+      touchEndY = e.changedTouches[0].clientY;
+      handleVerticalSwipe();
+    }, { passive: true });
+
+    function handleVerticalSwipe() {
+      const swipeDistance = touchEndY - touchStartY;
+      const now = Date.now();
+      
+      if (now - lastScrollTime < cardTransitionDuration) return;
+      lastScrollTime = now;
+      
+      if (Math.abs(swipeDistance) > 50) {
+        if (swipeDistance < 0 && currentSlide < sliderCards.length - 1) {
+          currentSlide++;
+          updateSliderPosition();
+        } else if (swipeDistance > 0 && currentSlide > 0) {
+          currentSlide--;
+          updateSliderPosition();
+        } else if (swipeDistance < 0 && currentSlide === sliderCards.length - 1) {
+          releaseToFooter();
+        } else if (swipeDistance > 0 && currentSlide === 0) {
+          releaseToHeader();
+        }
+        
+        updateIndicator();
+      }
+    }
+
+    // Smooth release functions
+    function releaseToFooter() {
+      isSliderActive = false;
+      sliderSection.classList.remove('sticky');
+      observer.unobserve(sliderSection);
+      document.querySelector('.footer').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start',
+        duration: sectionTransitionDuration
+      });
+      setTimeout(() => observer.observe(sliderSection), 1500);
+    }
+
+    function releaseToHeader() {
+      isSliderActive = false;
+      sliderSection.classList.remove('sticky');
+      observer.unobserve(sliderSection);
+      document.querySelector('.header').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start',
+        duration: sectionTransitionDuration
+      });
+      setTimeout(() => observer.observe(sliderSection), 1500);
+    }
+
+    // Improved keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!isSliderActive || isScrolling) return;
+      
+      const now = Date.now();
+      if (now - lastScrollTime < cardTransitionDuration) return;
+      lastScrollTime = now;
+      
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (currentSlide < sliderCards.length - 1) {
+          currentSlide++;
+          updateSliderPosition();
+        } else {
+          releaseToFooter();
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (currentSlide > 0) {
+          currentSlide--;
+          updateSliderPosition();
+        } else {
+          releaseToHeader();
+        }
+      }
+      
+      updateIndicator();
+    });
+
+    // Smoother slider position updates
+    function updateSliderPosition() {
+      isScrolling = true;
+      const offset = -currentSlide * 100;
+      
+      slider.style.transition = `transform ${cardTransitionDuration}ms cubic-bezier(0.16, 1, 0.3, 1)`;
+      slider.style.transform = `translateX(${offset}vw)`;
+      
+      const progress = (currentSlide / (sliderCards.length - 1)) * 100;
+      sliderProgress.style.transition = `width ${cardTransitionDuration}ms ease`;
+      sliderProgress.style.width = `${progress}%`;
+      
+      setTimeout(() => {
+        isScrolling = false;
+        slider.style.transition = 'none';
+        sliderProgress.style.transition = 'none';
+      }, cardTransitionDuration);
+    }
+
+    // Enhanced indicator updates
+    function updateIndicator() {
+      if (currentSlide === 0) {
+        sliderIndicator.textContent = '↓';
+        sliderIndicator.style.opacity = '0.8';
+      } else if (currentSlide === sliderCards.length - 1) {
+        sliderIndicator.textContent = '↑';
+        sliderIndicator.style.opacity = '0.8';
+      } else {
+        sliderIndicator.textContent = '↑↓';
+        sliderIndicator.style.opacity = '0.8';
+      }
+      
+      setTimeout(() => {
+        sliderIndicator.style.opacity = '0.3';
+      }, 2000);
+    }
+
+    // Improved nav link highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+    window.addEventListener('scroll', () => {
+      if (isSliderActive) return;
+      
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.pageYOffset >= sectionTop - 300) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
