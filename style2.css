@@ -1,26 +1,239 @@
+/* === ENHANCED ABIN SECTION (Line-by-Line Scroll Visibility) === */
 .abin-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #000;
-  padding: 2rem;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0f1a 0%, #050510 100%);
+    position: relative;
+    overflow: hidden;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.abin-text {
-  font-size: 1.6rem;
-  line-height: 1.7;
-  font-weight: 400;
-  max-width: 1000px;
-  margin: auto;
-  text-align: center;
-  color: rgba(255, 255, 255, 1);
-  opacity: 1;
-  transition: opacity 0.5s ease, color 0.5s ease;
-  font-family: 'Poppins', sans-serif;
+.abin-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.abin-text.sticky {
-  position: sticky;
-  top: 25vh;
+.abin-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.abin-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    z-index: 1;
+}
+
+.abin-content-wrapper {
+    width: 85%;
+    max-width: 900px;
+    min-height: 60%;
+    background: rgba(10, 10, 26, 0.9);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 247, 255, 0.2);
+    transition: transform 0.3s ease-out;
+}
+
+.abin-number {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgba(0, 247, 255, 0.3);
+    z-index: 3;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.abin-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #00f7ff, #0066ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.1;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.abin-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 20px;
+    opacity: 0.1;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.abin-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 30px;
+    max-width: 600px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced line-by-line text elements */
+.content-line {
+    display: block;
+    opacity: 0.05;
+    transform: translateY(15px);
+    margin-bottom: 0.8em;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    filter: blur(2px);
+    position: relative;
+}
+
+.content-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.1), transparent);
+    transition: width 0.8s ease;
+    z-index: -1;
+}
+
+.content-line:last-child {
+    margin-bottom: 0;
+}
+
+.abin-content-wrapper .btn {
+    opacity: 0.1;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    background: linear-gradient(135deg, #00f7ff, #0066ff);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 247, 255, 0.3);
+}
+
+/* Enhanced active states for better line clarity */
+.abin-section.scroll-active .abin-icon,
+.abin-section.scroll-active .abin-title {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.abin-section.scroll-active .btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Line visibility states */
+.content-line.line-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+.content-line.line-visible::before {
+    width: 100%;
+}
+
+.content-line.line-focused {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+}
+
+/* Enhanced glow effect */
+.abin-section.scroll-active .abin-content-wrapper {
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(0, 247, 255, 0.3),
+        0 0 20px rgba(0, 247, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .abin-container {
+        padding: 20px;
+    }
+    
+    .abin-content-wrapper {
+        width: 90%;
+        padding: 30px;
+        min-height: 70%;
+    }
+    
+    .abin-number {
+        top: 20px;
+        right: 20px;
+    }
+    
+    .abin-title {
+        font-size: 2rem;
+    }
+    
+    .abin-content {
+        font-size: 1rem;
+    }
+    
+    .abin-icon {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .abin-content-wrapper {
+        padding: 25px;
+        width: 95%;
+    }
+    
+    .abin-title {
+        font-size: 1.8rem;
+    }
+    
+    .abin-content {
+        font-size: 0.95rem;
+    }
+    
+    .content-line {
+        margin-bottom: 0.6em;
+    }
 }
