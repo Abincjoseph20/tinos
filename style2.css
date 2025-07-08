@@ -1,4 +1,5 @@
-/* === ENHANCED ABIN SECTION (Line-by-Line Scroll Visibility) === */
+/* Typewriter Scroll Animation Styles */
+/* === ENHANCED TYPEWRITER SECTION === */
 .abin-section {
     width: 100%;
     min-height: 100vh;
@@ -74,7 +75,7 @@
 .abin-icon {
     font-size: 4rem;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, #00f7ff, #0066ff);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -101,40 +102,57 @@
     margin-bottom: 30px;
     max-width: 600px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: pre-wrap;
 }
 
-/* Enhanced line-by-line text elements */
-.content-line {
-    display: block;
-    opacity: 0.05;
-    transform: translateY(15px);
-    margin-bottom: 0.8em;
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    filter: blur(2px);
+/* Typewriter character styles */
+.typewriter-char {
+    color: rgba(255, 255, 255, 0.15);
+    transition: color 0.3s ease;
     position: relative;
 }
 
-.content-line::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.1), transparent);
-    transition: width 0.8s ease;
-    z-index: -1;
+.typewriter-char.revealed {
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.content-line:last-child {
-    margin-bottom: 0;
+.typewriter-char.current {
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+    animation: blink 0.8s infinite alternate;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
+
+/* Enhanced cursor effect */
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background: var(--primary);
+    margin-left: 2px;
+    animation: cursor-blink 1s infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.typing-cursor.active {
+    opacity: 1;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
 }
 
 .abin-content-wrapper .btn {
     opacity: 0.1;
     transform: translateY(10px);
     transition: opacity 0.6s ease, transform 0.6s ease;
-    background: linear-gradient(135deg, #00f7ff, #0066ff);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     border: none;
     padding: 12px 30px;
     border-radius: 25px;
@@ -150,7 +168,7 @@
     box-shadow: 0 10px 20px rgba(0, 247, 255, 0.3);
 }
 
-/* Enhanced active states for better line clarity */
+/* Active states */
 .abin-section.scroll-active .abin-icon,
 .abin-section.scroll-active .abin-title {
     opacity: 1;
@@ -162,31 +180,32 @@
     transform: translateY(0);
 }
 
-/* Line visibility states */
-.content-line.line-visible {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-}
-
-.content-line.line-visible::before {
-    width: 100%;
-}
-
-.content-line.line-focused {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
-}
-
-/* Enhanced glow effect */
 .abin-section.scroll-active .abin-content-wrapper {
     box-shadow: 
         0 25px 50px -12px rgba(0, 0, 0, 0.15),
         0 0 0 1px rgba(0, 247, 255, 0.3),
         0 0 20px rgba(0, 247, 255, 0.1);
+}
+
+/* Progress indicator */
+.typing-progress {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.typing-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 2px;
 }
 
 /* Responsive adjustments */
@@ -231,9 +250,5 @@
     
     .abin-content {
         font-size: 0.95rem;
-    }
-    
-    .content-line {
-        margin-bottom: 0.6em;
     }
 }

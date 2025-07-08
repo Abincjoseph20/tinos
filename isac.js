@@ -2,27 +2,42 @@ document.addEventListener('DOMContentLoaded', function() {
     const abinSection = document.querySelector('.abin-section');
     const abinContainer = document.querySelector('.abin-container');
     const abinContentWrapper = document.querySelector('.abin-content-wrapper');
-    const abinTitle = document.querySelector('.abin-title');
     const abinContent = document.querySelector('.abin-content');
-    const abinIcon = document.querySelector('.abin-icon');
-    const abinButton = document.querySelector('.abin-content-wrapper .btn');
+    const typingCursor = document.querySelector('.typing-cursor');
+    const progressBar = document.querySelector('.typing-progress-bar');
     
-    if (abinSection && abinContainer) {
-        // Initialize with animation properties
+    let characters = [];
+    let totalChars = 0;
+    
+    if (abinSection && abinContainer && abinContent) {
+        // Initialize container animation
         abinContainer.style.opacity = '0';
         abinContainer.style.transform = 'translateY(20px)';
-        abinContainer.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
         
-        // Enhanced content splitting with sentence-based lines
-        if (abinContent) {
+        // Split text into individual characters
+        function initializeTypewriter() {
             const contentText = abinContent.textContent.trim();
-            // Split by sentences and clean up
-            const sentences = contentText.split(/(?<=\.)\s+/).filter(sentence => sentence.trim().length > 0);
+            totalChars = contentText.length;
             
-            abinContent.innerHTML = sentences.map((sentence, index) => 
-                `<span class="content-line" data-line="${index}">${sentence}</span>`
-            ).join('');
+            // Create character spans
+            const charSpans = contentText.split('').map((char, index) => {
+                const span = document.createElement('span');
+                span.className = 'typewriter-char';
+                span.textContent = char;
+                span.setAttribute('data-index', index);
+                return span;
+            });
+            
+            // Clear content and add character spans
+            abinContent.innerHTML = '';
+            charSpans.forEach(span => abinContent.appendChild(span));
+            
+            // Store references
+            characters = Array.from(abinContent.querySelectorAll('.typewriter-char'));
         }
+        
+        // Initialize typewriter
+        initializeTypewriter();
         
         // Intersection Observer for initial animation
         const abinObserver = new IntersectionObserver(
@@ -39,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         abinObserver.observe(abinSection);
         
-        // Enhanced scroll-based visibility with granular line control
-        function handleScrollVisibility() {
+        // Enhanced typewriter scroll effect
+        function handleTypewriterScroll() {
             const rect = abinSection.getBoundingClientRect();
             const sectionHeight = abinSection.offsetHeight;
             const viewportHeight = window.innerHeight;
@@ -49,108 +64,106 @@ document.addEventListener('DOMContentLoaded', function() {
             let scrollProgress = 0;
             
             if (rect.top <= viewportHeight * 0.3 && rect.bottom >= viewportHeight * 0.7) {
-                // Section is in the optimal viewing area
+                // Section is in optimal viewing area
                 scrollProgress = Math.min(1, (viewportHeight * 0.3 - rect.top) / (sectionHeight * 0.6));
             } else if (rect.top <= 0 && rect.bottom >= viewportHeight) {
-                // Section is fully in viewport or larger than viewport
+                // Section fills viewport
                 scrollProgress = Math.abs(rect.top) / (sectionHeight - viewportHeight);
             } else if (rect.top > viewportHeight * 0.3) {
-                // Section is below optimal viewing area
                 scrollProgress = 0;
             } else if (rect.bottom < viewportHeight * 0.7) {
-                // Section is above optimal viewing area
                 scrollProgress = 1;
             }
             
-            // Clamp between 0 and 1
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
             
-            // Enhanced element visibility control
+            // Update other elements
             const baseOpacity = 0.1;
             const maxOpacity = 1;
             const opacityRange = maxOpacity - baseOpacity;
             
-            // Apply opacity to main elements
-            if (abinIcon) {
-                abinIcon.style.opacity = baseOpacity + (scrollProgress * opacityRange);
-                abinIcon.style.transform = `translateY(${(1 - scrollProgress) * 10}px)`;
-            }
-            if (abinTitle) {
-                abinTitle.style.opacity = baseOpacity + (scrollProgress * opacityRange);
-                abinTitle.style.transform = `translateY(${(1 - scrollProgress) * 10}px)`;
-            }
-            if (abinButton) {
-                abinButton.style.opacity = baseOpacity + (scrollProgress * opacityRange);
-                abinButton.style.transform = `translateY(${(1 - scrollProgress) * 10}px)`;
+            // Apply to icon, title, button
+            const elements = [
+                document.querySelector('.abin-icon'),
+                document.querySelector('.abin-title'),
+                document.querySelector('.btn')
+            ];
+            
+            elements.forEach(el => {
+                if (el) {
+                    el.style.opacity = baseOpacity + (scrollProgress * opacityRange);
+                    el.style.transform = `translateY(${(1 - scrollProgress) * 10}px)`;
+                }
+            });
+            
+            // Typewriter effect
+            const revealedChars = Math.floor(scrollProgress * totalChars);
+            let currentCharIndex = -1;
+            
+            characters.forEach((char, index) => {
+                if (index < revealedChars) {
+                    char.classList.add('revealed');
+                    char.classList.remove('current');
+                } else if (index === revealedChars) {
+                    char.classList.add('current');
+                    char.classList.remove('revealed');
+                    currentCharIndex = index;
+                } else {
+                    char.classList.remove('revealed', 'current');
+                }
+            });
+            
+            // Update cursor position and visibility
+            if (typingCursor) {
+                if (currentCharIndex >= 0 && currentCharIndex < totalChars) {
+                    typingCursor.classList.add('active');
+                    // Position cursor after current character
+                    const currentChar = characters[currentCharIndex];
+                    if (currentChar) {
+                        const rect = currentChar.getBoundingClientRect();
+                        const containerRect = abinContent.getBoundingClientRect();
+                        typingCursor.style.position = 'absolute';
+                        typingCursor.style.left = `${rect.right - containerRect.left}px`;
+                        typingCursor.style.top = `${rect.top - containerRect.top}px`;
+                    }
+                } else if (revealedChars >= totalChars) {
+                    typingCursor.classList.remove('active');
+                } else {
+                    typingCursor.classList.remove('active');
+                }
             }
             
-            // Enhanced content lines handling
-            if (abinContent) {
-                const contentLines = abinContent.querySelectorAll('.content-line');
-                const lineCount = contentLines.length;
-                
-                contentLines.forEach((line, index) => {
-                    // Calculate when this line should start appearing (more gradual)
-                    const lineStartProgress = (index / lineCount) * 0.8; // Start earlier
-                    const lineEndProgress = Math.min(1, lineStartProgress + 0.4); // Longer transition
-                    
-                    // Calculate line-specific progress
-                    let lineProgress = 0;
-                    if (scrollProgress > lineStartProgress) {
-                        lineProgress = Math.min(1, (scrollProgress - lineStartProgress) / (lineEndProgress - lineStartProgress));
-                    }
-                    
-                    // Enhanced line visibility with multiple states
-                    const lineOpacity = 0.05 + (lineProgress * 0.95);
-                    const lineTransform = (1 - lineProgress) * 15;
-                    const lineBlur = (1 - lineProgress) * 2;
-                    
-                    line.style.opacity = lineOpacity;
-                    line.style.transform = `translateY(${lineTransform}px)`;
-                    line.style.filter = `blur(${lineBlur}px)`;
-                    
-                    // Add special focus effect for currently active line
-                    if (lineProgress > 0.3 && lineProgress < 0.9) {
-                        line.classList.add('line-focused');
-                    } else {
-                        line.classList.remove('line-focused');
-                    }
-                    
-                    // Add visible class for lines that are sufficiently visible
-                    if (lineProgress > 0.5) {
-                        line.classList.add('line-visible');
-                    } else {
-                        line.classList.remove('line-visible');
-                    }
-                });
+            // Update progress bar
+            if (progressBar) {
+                progressBar.style.width = `${scrollProgress * 100}%`;
             }
             
-            // Add scroll-active class when significantly visible
+            // Add scroll-active class
             if (scrollProgress > 0.2) {
                 abinSection.classList.add('scroll-active');
             } else {
                 abinSection.classList.remove('scroll-active');
             }
             
-            // Enhanced wrapper transform effect
+            // Wrapper transform
             if (abinContentWrapper) {
                 abinContentWrapper.style.transform = `translateY(${(1 - scrollProgress) * 5}px)`;
             }
         }
         
-        // Optimized scroll event listener
+        // Optimized scroll listener
         let ticking = false;
         function requestTick() {
             if (!ticking) {
-                requestAnimationFrame(handleScrollVisibility);
+                requestAnimationFrame(handleTypewriterScroll);
                 ticking = true;
-                setTimeout(() => { ticking = false; }, 8); // Higher frequency for smoother effect
+                setTimeout(() => { ticking = false; }, 16);
             }
         }
         
         window.addEventListener('scroll', requestTick);
         
         // Initial call
-        handleScrollVisibility();
+        handleTypewriterScroll();
     }
 });
